@@ -59,7 +59,7 @@ def chkRSS(service,url):
 
 def chkState():
 	global state
-	if chkRSS('ServiceMalware','http://cerberus.intr/index.php/rss/87c0eaf68eba52a2fdfb0d98ce0ef016') > 0:
+	if chkRSS('ServiceMalware','') > 0:
 		print 'Malware LED ON'
 		state[malwarech] = 1
 	else:
@@ -68,7 +68,7 @@ def chkState():
 		off(ch2devpath)
 
 
-	if chkRSS('ServiceRebootRequest','http://cerberus.intr/index.php/rss/d9420f78bf2ce4ebe46b511f1f80cc6d') > 0:
+	if chkRSS('ServiceRebootRequest','') > 0:
 		print 'Reboot request LED ON'
 		state[rebootch] = 1
 	else:
