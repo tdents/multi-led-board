@@ -1,0 +1,59 @@
+#define ch1 P1_0
+#define ch2 P1_6
+
+long previousMillis = 0;         // hold last millis value
+long interval = 1000;           // time intervel to provide delay for led function
+int ledState = LOW;
+int channels[] = {0, ch1, ch2 };
+int states[] = { 0, 0, 0};
+
+void setup() {
+ Serial.begin(9600);
+ pinMode(ch1, OUTPUT); 
+ pinMode(ch2, OUTPUT);
+ digitalWrite(ch1, LOW);
+ digitalWrite(ch2, LOW);
+}
+
+void loop() {
+unsigned long currentMillis = millis(); // saving current millis() value to a variable
+if(currentMillis - previousMillis > interval) {
+    previousMillis = currentMillis;
+    //channel 1
+    if (states[1] == 1) { 
+      if (digitalRead(ch1) == HIGH) {
+        digitalWrite(ch1, LOW);
+      }
+      else digitalWrite(ch1, HIGH);
+    }
+    //channel 2
+    if (states[2] == 1) { 
+      if (digitalRead(ch2) == HIGH) {
+        digitalWrite(ch2, LOW);
+      }
+      else digitalWrite(ch2, HIGH);
+    }
+    //channel 3
+    //channel 4
+}
+
+while (Serial.available() > 0) {
+
+  int channel = Serial.parseInt(); 
+  int state = Serial.parseInt(); 
+
+  if (Serial.read() == '\n') {
+  channel = constrain(channel, 1, 2);
+  state = constrain(state, 0, 1);
+  digitalWrite(channels[channel], state);
+  // print the three numbers in one string as hexadecimal:
+  states[channel] = state;
+  digitalWrite(ch1, LOW);
+  digitalWrite(ch2, LOW);
+  Serial.print("Channel ");
+  Serial.print(channel);
+  Serial.print(", state:");
+  Serial.println(state);
+  }
+ }
+}
